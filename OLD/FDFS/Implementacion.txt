@@ -1,0 +1,32 @@
+La implementación de FDFS se basa en el sistema de i-nodos.
+
+El sector nº 1 contiene el codigo de arranque, pero ademas tiene información importante tales como, el identificador de FDFS, la version de FDFS, el nombre del disco (15 car max, con la posicion 16 indicando el cluster de informacion que contiene el nombre completo o 0 si no hay mas nombre),el nº de pistas, sectores y cabezales, el tamaño en sectores que ocupa un cluster, la direccion del cluster donde esta guardada la informacion del directorio raiz, la fecha y hora de la creacion del disquete y la direccion de cluster de informacion adicional o 0 si no hay.
+
+El sector nº 2 y 3 contiene un mapa de bits de clusteres, en el que cada cluster ocupa 2 bits, que son los que se encargan de definir el estado de dicho cluster: 0 si está libre, 1 si está ocupado, 2 si es defectuoso y esta libre anteriormente, 3 si es defectuoso y estaba ocupado anteriormente.
+
+El directorio raiz (y cualquier otro subdirectorio) tiene la siguiente estructura:
+
+DIR
+Cluster del directorio padre (0 si se trata del directorio raiz)
+Nombre (255 caracteres max)
+Tabla con los 10 primeros subdirectorios, en la posicion 11 se indicará el numero de cluster donde prosigue la lista de directorios y así sucesivamente. Se utilizara el numero 0 para indicar el final de la lista de subdirectorios, y el caracter FFFFF para indicar que en esa posicion se borro un subdirectorio, pero que la lista sigue y está libre esa posicion para escribir uno si se quiere.
+Tabla con los 10 primeros descriptores de archivos, idem que con los subdirectorios.
+
+
+El cluster descriptor del archivo contenerá lo siguiente:
+
+FIL
+Cluster del directorio al que pertenece
+Nombre (255 car max)
+2 Bytes con la siguiente información (de MSB a LSB):
+RWXRWXRWX00RIOSL
+---------____---
+Permisos  Res Bits de Oculto, sistema y solo lectura
+de us, gr
+y admin
+R = Original
+I = Inenlazable
+Hora de creacion, ultima modificacion y acceso
+Cluster de donde empiezan los metadatos (0 si no tiene)
+Tabla con los clusteres de datos, idem que con los subdirectorios.
+

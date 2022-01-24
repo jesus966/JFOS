@@ -1,0 +1,44 @@
+La tabla de archivos de FDFS se compone de las siguientes entradas:
+
+COMUN PARA TODOS:
+
+Byte 1 : Identificador de entrada, tiene los siguientes valores:
+		- 'E' para indicar que es una entrada
+		- 0 si es hueco libre
+		
+Byte 2: Identificador de tipo de entrada con los siguientes valores:
+		- 0 es una entrada de archivo/directorio
+		- 1 es una entrada de clusters libres (obligatorio que haya siempre 1)
+		- 2 es una entrada de clusters defectuosos (opcional, si no hay defectos no tiene porque estar)
+		- 3 es una entrada de expansion de tabla de archivos
+
+Byte 3-4: Longitud de la entrada en bytes (max 64k bytes)
+
+Para tipo 0:
+Byte 5-6: Id de directorio al que pertenece
+Byte 6-7: Id de archivo dentro del directorio
+Byte 8:	Attributos de archivo:
+	-Bit 0: Solo lectura
+	-Bit 1: Oculto
+	-Bit 2: Sistema
+	-Bit 3: Ejecutable
+	-Bit 4: Es un archivo/es un directorio
+Bytes 9-32: Nombre del archivo/directorio
+Bytes 33-34: Numero total de clusters que ocupa el archivo
+Byte 35: Numero total de bytes que ocupa el ultimo cluster del archivo
+Byte 36-37: Año de creacion del archivo
+Byte 38: Mes de creacion
+Byte 39: Dia de creacion
+Byte 40: Hora de creacion
+Byte 41: Minuto de creacion
+Byte 42: Segundo de creacion
+Byte 43-44: Año de modif del archivo
+Byte 45: Mes de modif
+Byte 46: Dia de modif
+Byte 47: Hora de modif
+Byte 48: Minuto de modif
+Byte 49: Segundo de modif
+Esta tabla se repite hasta tener la informacion completa del archivo:
+Byte 50-51: Numero de cluster del archivo
+Byte 52-53: Numero de cluster correspondiente en el disco inicial
+Byte 54-55: Numero de cluster correspondiente en el disco final

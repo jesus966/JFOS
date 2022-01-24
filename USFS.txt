@@ -1,0 +1,23 @@
+ULTRA SIMPLE FILE SYSTEM
+
+cabecera:
+Byte 1-4: 'USFS'
+Byte 4-23: Etiqueta del volumen
+Byte 24: Cabezales totales
+Byte 25: Cilindros totales
+Byte 26: Sectores totales
+Byte 27: Numero sectores que forman un cluster
+Byte 28: Cluster inicio tabla arch
+Byte 29: Numero de clusters que ocupa tabla arch
+
+tabla de archivos
+Byte 1: Tipo de entrada, 0 vacio, 1 archivo, 2 cluster defectuoso
+
+Si archivo:
+Bytes 2-21: Nombre de archivo, terminado en 0
+Bytes 22-23: Tam total de clusteres que ocupa
+Bytes 24-25: Cluster Inicio arch
+Bytes 25-26: Cluster final arch
+
+Si defectuoso:
+Bytes 2-3: Numero de cluster defectuoso
